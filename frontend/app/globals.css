@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --onyx: #0c0c0e;
+  --onyx-card: #161618;
+  --onyx-elevated: #1c1c1f;
+  --onyx-border: #2a2a2e;
+  --gold: #d4af37;
+  --gold-soft: #b8860b;
+  --gold-muted: #9a7b2e;
+  --text: #e8e6e3;
+  --text-muted: #9c9892;
+}
+
+body {
+  background: var(--onyx);
+  color: var(--text);
+}

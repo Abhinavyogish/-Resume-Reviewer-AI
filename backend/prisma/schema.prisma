@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Resume {
+  id             String   @id @default(cuid())
+  name           String   @default("Untitled")
+  rawText        String
+  structuredData  String?
+  embedding      String?
+  createdAt      DateTime @default(now())
+
+  scores CandidateScore[]
+
+  @@map("resumes")
+}
+
+model JobDescription {
+  id                    String   @id @default(cuid())
+  title                 String
+  description           String
+  embedding             String?
+  structuredRequirements String?
+  createdAt             DateTime @default(now())
+
+  scores CandidateScore[]
+
+  @@map("job_descriptions")
+}
+
+model CandidateScore {
+  id              String   @id @default(cuid())
+  resumeId        String
+  jobId           String
+  totalScore      Float
+  skillScore      Float
+  experienceScore Float
+  semanticScore   Float
+  educationScore  Float
+  industryScore   Float
+  biasFlags       String?
+  explanation     String?
+  createdAt       DateTime @default(now())
+
+  resume Resume          @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  job    JobDescription  @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  @@unique([resumeId, jobId])
+  @@index([jobId])
+  @@index([totalScore])
+  @@map("candidate_scores")
+}
